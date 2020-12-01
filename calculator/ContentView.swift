@@ -9,6 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
   
+  @State var labelStr = "0"
+  @State var firstNum = ""
+  @State var secondNum = ""
+  @State var operation = ""
+  @State var isFirst = true
+  @State var isOperationClick = false
+  
   let spacingGap: CGFloat = 10.0
   let buttons: [[CalcButton]] = CalcButtons
   
@@ -20,7 +27,7 @@ struct ContentView: View {
         
         HStack {
           Spacer()
-          Text("0")
+          Text(labelStr)
             .foregroundColor(.white)
             .font(.system(size: 64))
         }.padding()
@@ -28,18 +35,14 @@ struct ContentView: View {
         ForEach(0...buttons.count - 1, id: \.self) { index in
           
           HStack(spacing: spacingGap) {
-            ForEach(buttons[index]) { button in
-              Text(button.char)
-                .font(.system(size: 32))
-                .foregroundColor(Color.white)
-                .frame(
-                  width: computeBtnSize(),
-                  height: computeBtnSize()
-                )
-                .background(Color.init(
-                  setBtnColor(type: button.type)
-                ))
-                .cornerRadius(computeBtnSize())
+            ForEach(buttons[index]) { calcBtn in
+              
+              Button(action: {
+                onClickBtn(btn: calcBtn)
+              }) {
+                btnRef(calcBtn: calcBtn)
+              }
+
             }.padding(.bottom, spacingGap)
           }
         }
@@ -47,8 +50,13 @@ struct ContentView: View {
     }
   }
   
-  func computeBtnSize() -> CGFloat {
+  func computeBtnHeight(btn: CalcButton) -> CGFloat {
     return (UIScreen.main.bounds.width - spacingGap * 5) / 4
+  }
+  
+  func computeBtnWidth(btn: CalcButton) -> CGFloat {
+    let part = (UIScreen.main.bounds.width - spacingGap * 5) / 4
+    return btn.effect == "result" ? part * 2 : part
   }
   
   func setBtnColor(type: String) -> UIColor {
@@ -60,6 +68,70 @@ struct ContentView: View {
     default:
       return UIColor.darkGray
     }
+  }
+  
+  func btnRef(calcBtn: CalcButton) -> some View {
+    return Text(calcBtn.char)
+      .font(.system(size: 32))
+      .foregroundColor(Color.white)
+      .frame(
+        width: computeBtnWidth(btn: calcBtn),
+        height: computeBtnHeight(btn: calcBtn)
+      )
+      .background(Color.init(
+        setBtnColor(type: calcBtn.type)
+      ))
+      .cornerRadius(computeBtnWidth(btn: calcBtn))
+  }
+  
+  func onClickBtn(btn: CalcButton) {
+    switch btn.effect {
+    case "default":
+      self.setNewNumber(btn: btn)
+    case "reset":
+      self.resetState()
+    case "result":
+      self.computeResult()
+    default:
+      self.addEffect(btn: btn)
+    }
+  }
+  
+  func setNewNumber(btn: CalcButton) {
+    if (isFirst) {
+      labelStr = labelStr == "0" ? btn.char : labelStr + btn.char
+      firstNum = labelStr
+    } else {
+      labelStr = isOperationClick ? btn.char : labelStr + btn.char
+      secondNum = labelStr
+      isOperationClick = false
+    }
+  }
+  
+  func addEffect(btn: CalcButton) {
+    if (isFirst) {
+      firstNum = labelStr
+      labelStr = btn.char
+      operation = btn.char
+      isFirst = false
+      isOperationClick = true
+    }
+  }
+  
+  func computeResult() {
+    if (operation == "+") {
+      labelStr = String(Int(firstNum)! + Int(secondNum)!)
+    }
+//    labelStr = "f: \(firstNum), o: \(operation), s: \(secondNum)"
+  }
+  
+  func resetState() {
+    labelStr = "0"
+    firstNum = ""
+    secondNum = ""
+    operation = ""
+    isFirst = true
+    isOperationClick = false
   }
 }
 
