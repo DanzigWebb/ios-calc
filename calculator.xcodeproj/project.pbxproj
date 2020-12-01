@@ -13,6 +13,7 @@
 		1F0512F425752D0600304A8A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F0512F325752D0600304A8A /* Preview Assets.xcassets */; };
 		1F0512FF25752D0600304A8A /* calculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F0512FE25752D0600304A8A /* calculatorTests.swift */; };
 		1F05130A25752D0600304A8A /* calculatorUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F05130925752D0600304A8A /* calculatorUITests.swift */; };
+		1F05131B25753C8B00304A8A /* CalcBtnsStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F05131A25753C8B00304A8A /* CalcBtnsStruct.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +46,7 @@
 		1F05130525752D0600304A8A /* calculatorUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = calculatorUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F05130925752D0600304A8A /* calculatorUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculatorUITests.swift; sourceTree = "<group>"; };
 		1F05130B25752D0600304A8A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1F05131A25753C8B00304A8A /* CalcBtnsStruct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalcBtnsStruct.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 				1F0512F025752D0600304A8A /* Assets.xcassets */,
 				1F0512F525752D0600304A8A /* Info.plist */,
 				1F0512F225752D0600304A8A /* Preview Content */,
+				1F05131A25753C8B00304A8A /* CalcBtnsStruct.swift */,
 			);
 			path = calculator;
 			sourceTree = "<group>";
@@ -260,6 +263,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				1F0512EF25752D0500304A8A /* ContentView.swift in Sources */,
+				1F05131B25753C8B00304A8A /* CalcBtnsStruct.swift in Sources */,
 				1F0512ED25752D0500304A8A /* calculatorApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
