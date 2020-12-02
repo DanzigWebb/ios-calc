@@ -13,7 +13,7 @@ struct ContentView: View {
   @State var firstNum = ""
   @State var secondNum = ""
   @State var operation = ""
-  @State var isFirst = true
+  @State var isPrintFirstNumber = true
   @State var isOperationClick = false
   
   let spacingGap: CGFloat = 10.0
@@ -30,16 +30,14 @@ struct ContentView: View {
           Text(labelStr)
             .foregroundColor(.white)
             .font(.system(size: 64))
-        }.padding()
+        }.padding(.bottom, 20)
         
         ForEach(0...buttons.count - 1, id: \.self) { index in
           
           HStack(spacing: spacingGap) {
             ForEach(buttons[index]) { calcBtn in
               
-              Button(action: {
-                onClickBtn(btn: calcBtn)
-              }) {
+              Button(action: {onClickBtn(btn: calcBtn)}) {
                 btnRef(calcBtn: calcBtn)
               }
 
@@ -98,7 +96,7 @@ struct ContentView: View {
   }
   
   func setNewNumber(btn: CalcButton) {
-    if (isFirst) {
+    if (isPrintFirstNumber) {
       labelStr = labelStr == "0" ? btn.char : labelStr + btn.char
       firstNum = labelStr
     } else {
@@ -109,20 +107,40 @@ struct ContentView: View {
   }
   
   func addEffect(btn: CalcButton) {
-    if (isFirst) {
+    if (isPrintFirstNumber) {
       firstNum = labelStr
       labelStr = btn.char
-      operation = btn.char
-      isFirst = false
+      operation = btn.effect
+      isPrintFirstNumber = false
       isOperationClick = true
+    } else if (isOperationClick) {
+      labelStr = btn.char
+      operation = btn.char
     }
   }
   
   func computeResult() {
-    if (operation == "+") {
-      labelStr = String(Int(firstNum)! + Int(secondNum)!)
+    func setToFirstStep() {
+      isOperationClick = false
+      isPrintFirstNumber = true
     }
-//    labelStr = "f: \(firstNum), o: \(operation), s: \(secondNum)"
+    
+    switch operation {
+    case "addition":
+      labelStr = String(Int(firstNum)! + Int(secondNum)!)
+      setToFirstStep()
+    case "division":
+      labelStr = String(Int(firstNum)! / Int(secondNum)!)
+      setToFirstStep()
+    case "multiply":
+      labelStr = String(Int(firstNum)! * Int(secondNum)!)
+      setToFirstStep()
+    case "subtraction":
+      labelStr = String(Int(firstNum)! - Int(secondNum)!)
+      setToFirstStep()
+    default:
+      labelStr = "error operation"
+    }
   }
   
   func resetState() {
@@ -130,7 +148,7 @@ struct ContentView: View {
     firstNum = ""
     secondNum = ""
     operation = ""
-    isFirst = true
+    isPrintFirstNumber = true
     isOperationClick = false
   }
 }
